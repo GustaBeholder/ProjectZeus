@@ -13,8 +13,10 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
 import projectzeus.entities.Card;
 import projectzeus.entities.GameOver;
+import projectzeus.entities.Iterator;
 import projectzeus.entities.Opcao;
 
 /**
@@ -23,7 +25,7 @@ import projectzeus.entities.Opcao;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
     
-    private String finalCaminho = "C:\\Users\\Aluno\\Documents\\NetBeansProjects\\ProjectZeus-master\\src\\projectzeus\\";
+    private String finalCaminho = "C:\\Users\\Aluno\\Documents\\NetBeansProjects\\ProjectZeus2\\src\\projectzeus\\";
     private ArrayList<Card> listaCards = new ArrayList<>();
     private ArrayList<Integer> passed = new ArrayList<>();
     private Integer index = 0;
@@ -60,7 +62,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         novasCartas();
         carregaCarta(cardAtual);
         
-
     }
 
     public void alterarProgressos(Integer a, Integer b, Integer c, Integer d) {
@@ -249,11 +250,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(labelOpiniao, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(progressoImpacto, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(progressoImpacto, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelImpacto, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,15 +308,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(labelOpcaoA, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
-                        .addComponent(labelOpcaoB, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(labelOpcaoA, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelOpcaoB, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -329,8 +328,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(labelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labelOpcaoA, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
-                    .addComponent(labelOpcaoB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelOpcaoA, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelOpcaoB, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -367,7 +366,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -447,39 +446,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
     
     
     public void shuffleIndex(){
-        Random gerador = new Random(System.currentTimeMillis());
-        Boolean achou = true;
-        passed.add(0);
-       
-        while(achou){
-            Integer count = 0;
-            Integer number = gerador.nextInt(listaCards.size());
-            for(int j = 0; j < passed.size(); j++){
-                if(number == passed.get(j)){
-                    count++;
-                    if(count == 12){
-                        achou = false;
-                    }
-                }
-            }
-            if(count == 0){
-                index = number;
-                passed.add(number);
-                achou = false;
-                   
-            }
-        }  
+
     }
             
     public void novasCartas() {
         
         Opcao opcaoA = new Opcao("Pronunciamento público: Promover um evento com os cientistas sobre o aquecimento global", -10, 0, 20, -10);
         Opcao opcaoB = new Opcao("Presidente de onde? Tenho mais o que fazer.", 3, -10, -10, 75);
-        Card presidente = new Card("Aquecimento Global?", "Presidente de uma grande nação duvida do aquecimento global.", "Evento", opcaoA, opcaoB, finalCaminho+"Evento\\AquecimentoGlobal.png");
+        Card presidente = new Card("Aquecimento Global?", "Presidente de uma grande nação duvida do aquecimento global.", "Evento", opcaoA, opcaoB, finalCaminho+"Evento\\AquecimentoGlobal.jpg");
 
         Opcao opcaoC = new Opcao("Reportar dinheiro duvidoso para as autoridades.", 8, 0, 5, 0);
         Opcao opcaoD = new Opcao("Aceitar...", 25, 0, -15, 0);
-        Card empresario = new Card("Empresário Misterioso", "Empresário misterioso te oferece uma quantia bilionária.", "Evento", opcaoC, opcaoD, finalCaminho+"Evento\\suborno.png");
+        Card empresario = new Card("Empresário Misterioso", "Empresário misterioso te oferece uma quantia bilionária.", "Evento", opcaoC, opcaoD, finalCaminho+"Evento\\Suborno.jpg");
 
         Opcao opcaoE = new Opcao("Oferecer recursos para reconstrução da área.", -20, 0, 15, 5);
         Opcao opcaoF = new Opcao("Não posso abrir mão de recursos tão escassos.", 10, 0, -10, 13);
@@ -495,7 +473,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         
         Opcao opcaoK = new Opcao("Estou satisfeitos com as fontes que temos", 5, 0, -10, 0);
         Opcao opcaoL = new Opcao("Claro, novas fontes são sempre bem vindas", -7, 5, 5, 0);
-        Card financiamento = new Card("Palestra de Concientização", "O povo está usando energia de forma desenfreada", "Evento", opcaoK, opcaoL, finalCaminho+"Evento\\financiamento.jpg");
+        Card financiamento = new Card("Financiamento", "Cientistas pedem financiamento para pesquisar novas fontes de energia.", "Evento", opcaoK, opcaoL, finalCaminho+"Evento\\financiamento.jpg");
         
         Opcao opcaoE1a = new Opcao("Nós ainda precisamos delas", 5, 0, -10, 5);
         Opcao opcaoE1b = new Opcao(" É melhor para o planeta",-5, -15, 5, -13);
@@ -550,15 +528,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
         listaCards.add(oceanica);
         listaCards.add(diplomacia);   
         
-        cardAtual = listaCards.get(index);
-        Console.escreve(listaCards.size() + "< lista" + index + "<index");
+        Iterator.adicionaCarta(listaCards);
+        cardAtual = Iterator.getProximaCarta();
+        
 
     }
 
     public void chamaCarta() {
         checkGameOver();
         
-        cardAtual = listaCards.get(index);
+        cardAtual = Iterator.getProximaCarta();
         carregaCarta(cardAtual);
 
     }
