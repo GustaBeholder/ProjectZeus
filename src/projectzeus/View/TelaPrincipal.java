@@ -8,7 +8,9 @@ package projectzeus.View;
 import commons.Console;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.List;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import projectzeus.entities.Card;
@@ -23,7 +25,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     
     private String finalCaminho = "C:\\Users\\Aluno\\Documents\\NetBeansProjects\\ProjectZeus-master\\src\\projectzeus\\";
     private ArrayList<Card> listaCards = new ArrayList<>();
+    private ArrayList<Integer> passed = new ArrayList<>();
     private Integer index = 0;
+    private Integer check = 0;
     private Card cardAtual;
 
     public Card getCardAtual() {
@@ -38,7 +42,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
      * Creates new form TelaPrincipal
      */
     public TelaPrincipal() {
+      
         initComponents();
+        
         setLocationRelativeTo(this);
 
         progressoDinheiro.setValue(50);
@@ -382,18 +388,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void labelOpcaoAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_labelOpcaoAActionPerformed
-       
-        index += 1;
+        check++;
+        shuffleIndex();
+        checkGameOver();
+        checkwin();
         alterarProgressos(cardAtual.getOpcaoA().getDinheiro(), cardAtual.getOpcaoA().getEnergia(), cardAtual.getOpcaoA().getImpactoAmbiental(), cardAtual.getOpcaoA().getOpiniaoPublica());
         chamaCarta(); 
         
     }//GEN-LAST:event_labelOpcaoAActionPerformed
 
     private void labelOpcaoBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_labelOpcaoBActionPerformed
-        index += 1;
+        check++;
+        shuffleIndex();
+        checkGameOver();
+        checkwin();
         alterarProgressos(cardAtual.getOpcaoB().getDinheiro(), cardAtual.getOpcaoB().getEnergia(), cardAtual.getOpcaoB().getImpactoAmbiental(), cardAtual.getOpcaoB().getOpiniaoPublica());
         chamaCarta();
-        
     }//GEN-LAST:event_labelOpcaoBActionPerformed
 
     /**
@@ -432,48 +442,97 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     }
 
+    
+    
+    
+    
+    public void shuffleIndex(){
+        Random gerador = new Random(System.currentTimeMillis());
+        Boolean achou = true;
+        passed.add(0);
+       
+        while(achou){
+            Integer count = 0;
+            Integer number = gerador.nextInt(listaCards.size());
+            for(int j = 0; j < passed.size(); j++){
+                if(number == passed.get(j)){
+                    count++;
+                    if(count == 12){
+                        achou = false;
+                    }
+                }
+            }
+            if(count == 0){
+                index = number;
+                passed.add(number);
+                achou = false;
+                   
+            }
+        }  
+    }
+            
     public void novasCartas() {
         
-        Opcao opcaoA = new Opcao("Pronunciamento público: Promover um evento com os cientistas sobre o aquecimento global", -10, 0, 20, -5);
-        Opcao opcaoB = new Opcao("Presidente de onde? Tenho mais o que fazer.", 0, -10, -10, 10);
+        Opcao opcaoA = new Opcao("Pronunciamento público: Promover um evento com os cientistas sobre o aquecimento global", -10, 0, 20, -10);
+        Opcao opcaoB = new Opcao("Presidente de onde? Tenho mais o que fazer.", 3, -10, -10, 75);
         Card presidente = new Card("Aquecimento Global?", "Presidente de uma grande nação duvida do aquecimento global.", "Evento", opcaoA, opcaoB, finalCaminho+"Evento\\AquecimentoGlobal.png");
 
-        Opcao opcaoC = new Opcao("Reportar dinheiro duvidoso para as autoridades.", 0, 0, 5, 0);
+        Opcao opcaoC = new Opcao("Reportar dinheiro duvidoso para as autoridades.", 8, 0, 5, 0);
         Opcao opcaoD = new Opcao("Aceitar...", 25, 0, -15, 0);
         Card empresario = new Card("Empresário Misterioso", "Empresário misterioso te oferece uma quantia bilionária.", "Evento", opcaoC, opcaoD, finalCaminho+"Evento\\suborno.png");
 
-        Opcao opcaoE = new Opcao("Oferecer recursos para reconstrução da área.", -20, 0, 30, 5);
-        Opcao opcaoF = new Opcao("Não posso abrir mão de recursos tão escassos.", 0, 0, -10, 20);
+        Opcao opcaoE = new Opcao("Oferecer recursos para reconstrução da área.", -20, 0, 15, 5);
+        Opcao opcaoF = new Opcao("Não posso abrir mão de recursos tão escassos.", 10, 0, -10, 13);
         Card vulcao = new Card("Vulcão em Erupção", "Erupção de vulcão em países subdesenvolvidos.", "Evento", opcaoE, opcaoF,finalCaminho+"Evento\\Volcano.jpg");
         
         Opcao opcaoG = new Opcao("Implantar o horáriro de verão para que povo economize energia", -5, -10, -5, 0);
-        Opcao opcaoH = new Opcao(" Ter que ajustar meu relógio? Jamais...", 0, 10, -10, 0);
+        Opcao opcaoH = new Opcao(" Ter que ajustar meu relógio? Jamais...", 3, 10, -10, 0);
         Card horario = new Card("Horário de verão", "Vamos implementar o horário de verão?", "Evento", opcaoG, opcaoH, finalCaminho+"Evento\\horarioVerao.jpg");
         
-        Opcao opcaoI = new Opcao("Não temos tempo para isso....", 0, 5, -3, 5);
+        Opcao opcaoI = new Opcao("Não temos tempo para isso....", 5, 5, -10, 5);
         Opcao opcaoJ = new Opcao(" Vamos incentivar o povo, energia precisa ser economizada", -5, -5, 3, -2);
         Card palestra = new Card("Palestra de Concientização", "O povo está usando energia de forma desenfreada", "Evento", opcaoI, opcaoJ, finalCaminho+"Evento\\palestra.jpg");
         
-        Opcao opcaoK = new Opcao("Estou satisfeitos com as fontes que temos", 0, 0, -10, 0);
-        Opcao opcaoL = new Opcao("Claro, novas fontes são sempre bem vindas", -15, 5, 5, 0);
+        Opcao opcaoK = new Opcao("Estou satisfeitos com as fontes que temos", 5, 0, -10, 0);
+        Opcao opcaoL = new Opcao("Claro, novas fontes são sempre bem vindas", -7, 5, 5, 0);
         Card financiamento = new Card("Palestra de Concientização", "O povo está usando energia de forma desenfreada", "Evento", opcaoK, opcaoL, finalCaminho+"Evento\\financiamento.jpg");
         
+        Opcao opcaoE1a = new Opcao("Nós ainda precisamos delas", 5, 0, -10, 5);
+        Opcao opcaoE1b = new Opcao(" É melhor para o planeta",-5, -15, 5, -13);
+        Card duvida = new Card("Desativar usinas não renováveis", "O planeta não aguenta mais as fontes não renovaveis", "Evento", opcaoE1a, opcaoE1b, finalCaminho+"Evento\\desativar.jpg");
         
-        Opcao opcaoCons1a = new Opcao("Construir", -15, 10, 5, 15);
-        Opcao opcaoCons1b = new Opcao("Não temos os recursos", 0,-7, -5, 0);
+        Opcao opcaoE2a = new Opcao("Cara, isso parece perigoso, volte quando ela estiver mais segura", 0, 0, 15, -5);
+        Opcao opcaoE2b = new Opcao(" Aceitar nova fonte de energia",-15, 35, -25,5);
+        Card jayce = new Card("Oferta Hextech", "Um ciêntista de apresenta uma fonte de energia nova, porém muito instável", "Evento", opcaoE2a, opcaoE2b, finalCaminho+"Evento\\novaFonte.jpg");
+        
+        Opcao opcaoE3a = new Opcao("Escolher um dos países", 3, 2, -15, -3);
+        Opcao opcaoE3b = new Opcao("Energia limpa para todos!", 7, 4, 10, -7);
+        Card diplomacia = new Card("Soluçao diplomatica", "Dois países da Europa estão brigando para receber as novas fontes de energia primeiro", "Evento", opcaoE3a, opcaoE3b, finalCaminho+"Evento\\diplomacia.jpg");
+        
+        Opcao opcaoCons1a = new Opcao("Construir", -15, 10, 5, 5);
+        Opcao opcaoCons1b = new Opcao("Não temos os recursos", 7,-2, -5, -2);
         Card eolica = new Card("Parque Eólico", "Vamos construir novos parques eólicos", "Construçao", opcaoCons1a, opcaoCons1b, finalCaminho+"Construção\\Eolica.png");
         
-        Opcao opcaoCons2a = new Opcao("Construir", -20, 10, -5, 10);
-        Opcao opcaoCons2b = new Opcao("Não temos os recursos", 0,-5, 3, 0);
+        Opcao opcaoCons2a = new Opcao("Construir", -15, 10, -5, 8);
+        Opcao opcaoCons2b = new Opcao("Não temos os recursos", 7,-2, 3, -2);
         Card geotermica = new Card("Usina Geotermica", "Vamos construir uma usina Geotermica", "Construçao", opcaoCons2a, opcaoCons2b, finalCaminho+"Construção\\Geotermica.png");
         
-        Opcao opcaoCons3a = new Opcao("Construir", -35, 25, -20, 25);
-        Opcao opcaoCons3b = new Opcao("Não temos os recursos", 0,-10, 5, 0);
+        Opcao opcaoCons3a = new Opcao("Construir", -20, 25, -13, 15);
+        Opcao opcaoCons3b = new Opcao("Não temos os recursos",12,-2, -2, -3);
         Card hidreletrica = new Card("Usina Hidrelétrica", "Vamos construir uma usina Hidrelétrica", "Construçao", opcaoCons3a, opcaoCons3b, finalCaminho+"Construção\\Hidreletrica.png");
         
-        Opcao opcaoCons4a = new Opcao("Construir", -30, 15, -25, 20);
-        Opcao opcaoCons4b = new Opcao("Não temos os recursos", 0,-7, 5, 0);
+        Opcao opcaoCons4a = new Opcao("Construir", -23, 15, -13, 13);
+        Opcao opcaoCons4b = new Opcao("Não temos os recursos", 15,-2, -2, -2);
         Card nuclear = new Card("Usina Nuclear", "Vamos construir uma usina Nuclear", "Construçao", opcaoCons4a, opcaoCons4b, finalCaminho+"Construção\\Nuclear.png");
+        
+        Opcao opcaoCons5a = new Opcao("Construir", -13, 10, 2, 7);
+        Opcao opcaoCons5b = new Opcao("Não temos os recursos", 12,-2, -2, -3);
+        Card solar = new Card("Paineis solares", "Vamos construir um parque solares", "Construçao", opcaoCons5a, opcaoCons5b, finalCaminho+"Construção\\Solar.png");
+        
+        Opcao opcaoCons6a = new Opcao("Construir", -10, 5, 2, 2);
+        Opcao opcaoCons6b = new Opcao("Não temos os recursos", 7,-2, -2, -3);
+        Card oceanica = new Card("Pás oceânicas", "Vamos construir pás oceânicas", "Construçao", opcaoCons6a, opcaoCons6b, finalCaminho+"Construção\\Oceanica.png");
+        
         
         listaCards.add(eolica);
         listaCards.add(empresario);
@@ -482,10 +541,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
         listaCards.add(vulcao);
         listaCards.add(horario);
         listaCards.add(hidreletrica);
+        listaCards.add(jayce);
         listaCards.add(palestra);
+        listaCards.add(duvida);
         listaCards.add(nuclear);
         listaCards.add(financiamento);
-
+        listaCards.add(solar);
+        listaCards.add(oceanica);
+        listaCards.add(diplomacia);   
+        
         cardAtual = listaCards.get(index);
         Console.escreve(listaCards.size() + "< lista" + index + "<index");
 
@@ -493,9 +557,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     public void chamaCarta() {
         checkGameOver();
+        
         cardAtual = listaCards.get(index);
         carregaCarta(cardAtual);
 
+    }
+    
+    public void checkwin(){
+        if(check == listaCards.size()){
+            GameOver.setTitulo("Você conseguiu!");
+            GameOver.setDescricao("Você conseguiu gerir a crise por enquanto! Continue economizando energia e lembre-se \n o planeta não pode continuar dessa forma!");
+            GameOver.setImagem(finalCaminho+"Gameover\\win.jpg");
+            this.setVisible(false);
+            TelaFimDeJogo next = new TelaFimDeJogo();
+            next.setVisible(true);
+            this.dispose();
+        }
     }
 
     public void scaleImage(String imagem) {
